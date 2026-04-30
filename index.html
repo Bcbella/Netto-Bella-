@@ -10,8 +10,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --g0:#5a3e00;--g1:#b8860b;--g2:#c8960c;--g3:#daa520;--g4:#fff0a0;--g5:#fdf5d0;
-  --ink:#1a1200;--ink2:#3a2e00;--muted:#8a7030;--line:#e8d070;--bg:#fdf8e8;--white:#fff;
+  --g0:#1a1400;--g1:#b8860b;--g2:#c8960c;--g3:#daa520;--g4:#fde98a;--g5:#fef9e0;
+  --ink:#0f1f12;--ink2:#3a2e00;--muted:#8a7030;--line:#eddea0;--bg:#fdfaf0;--white:#fff;
   --r1:#1a5c2a;--r2:#4caf50;--r3:#ff9800;--r4:#f44336;--r5:#b71c1c;
   --radius:14px;--shadow:0 2px 20px rgba(26,92,42,0.10);
 }
@@ -33,9 +33,9 @@ body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);min-hei
 
 /* ── APP SHELL ── */
 #app-screen{display:none;min-height:100vh;flex-direction:column}
-nav{background:var(–g1);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
+nav{background:#1a1400;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
 .nav-brand{font-size:15px;font-weight:800;color:white}
-.nav-brand span{color:var(–ink)}
+.nav-brand span{color:var(–g4)}
 .nav-tabs{display:flex;gap:4px}
 .nav-tab{padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);cursor:pointer;border:none;background:none;font-family:‘Sora’,sans-serif;transition:all 0.15s}
 .nav-tab:hover{color:white;background:rgba(255,255,255,0.1)}
@@ -53,7 +53,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;
 
 /* ── CARDS ── */
 .card{background:white;border-radius:var(–radius);box-shadow:var(–shadow);border:1px solid var(–line);overflow:hidden;margin-bottom:16px}
-.card-header{background:var(–g1);color:white;padding:12px 18px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.card-header{background:#1a1400;color:white;padding:12px 18px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
 .card-subheader{background:var(–g5);color:var(–g1);padding:8px 18px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;border-bottom:1px solid var(–line)}
 
 /* ── CHECKLIST ── */
@@ -61,8 +61,8 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;
 .check-row:last-child{border-bottom:none}
 .check-row:hover{background:var(–g5)}
 .check-row.checked{background:var(–g5)}
-.circle-btn{width:24px;height:24px;border-radius:50%;border:2px solid var(–g2);background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:all 0.15s}
-.circle-btn.done{background:var(–g1);border-color:var(–g1);color:white}
+.circle-btn{width:24px;height:24px;border-radius:50%;border:2px solid #b8860b;background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:all 0.15s}
+.circle-btn.done{background:#b8860b;border-color:var(–g1);color:white}
 .check-label{font-size:14px;color:var(–ink2);flex:1}
 .check-row.checked .check-label{color:var(–muted);text-decoration:line-through}
 
@@ -82,7 +82,7 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;
 /* ── STATS ── */
 .stats-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
 .stat-card{flex:1;min-width:120px;background:white;border-radius:var(–radius);border:1px solid var(–line);padding:16px;text-align:center;box-shadow:var(–shadow)}
-.stat-num{font-size:26px;font-weight:800;color:var(–g1);font-family:‘JetBrains Mono’,monospace}
+.stat-num{font-size:26px;font-weight:800;color:#b8860b;font-family:‘JetBrains Mono’,monospace}
 .stat-label{font-size:10px;color:var(–muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px}
 .grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 @media(max-width:600px){.grid-2{grid-template-columns:1fr}}
@@ -142,7 +142,7 @@ textarea:focus{border-color:var(–g1)}
 /* ── ROLE BADGE ── */
 .role-leder{background:linear-gradient(135deg,#1a1a2e,var(–g1));color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
 
-.weekly-banner{background:linear-gradient(135deg,var(–g0),#1a3d20);border-radius:var(–radius);padding:18px 20px;color:white;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.weekly-banner{background:linear-gradient(135deg,#1a1400,#3a2800);border-radius:var(–radius);padding:18px 20px;color:white;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
 .weekly-uge{font-family:‘JetBrains Mono’,monospace;font-size:36px;font-weight:800;color:var(–g3)}
 .weekly-info{display:flex;flex-direction:column;gap:6px}
 .weekly-item{font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
