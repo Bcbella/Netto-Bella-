@@ -3,75 +3,77 @@
 <html lang="da">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>Netto Bella — Driftssystem</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --g0:#1a1400;--g1:#b8860b;--g2:#c8960c;--g3:#daa520;--g4:#fde98a;--g5:#fef9e0;
-  --ink:#0f1f12;--ink2:#3a2e00;--muted:#8a7030;--line:#eddea0;--bg:#fdfaf0;--white:#fff;
+  --dark:#1a1400;--amber:#b8860b;--amber2:#daa520;--amber3:#fde98a;
+  --bg:#fdfaf0;--white:#fff;--line:#e8d898;--muted:#8a7030;
+  --ink:#1a1200;--ink2:#3a2e00;--g5:#fef9e0;
   --r1:#1a5c2a;--r2:#4caf50;--r3:#ff9800;--r4:#f44336;--r5:#b71c1c;
-  --radius:14px;--shadow:0 2px 20px rgba(26,92,42,0.10);
+  --radius:14px;--shadow:0 2px 16px rgba(184,134,11,0.10);
 }
 body{font-family:'Sora',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh}
 
 /* ── LOGIN ── */
-#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,var(–g0),var(–g1))}
-.login-box{background:white;border-radius:24px;padding:40px 36px;width:360px;box-shadow:0 20px 60px rgba(0,0,0,0.3)}
-.login-logo{font-size:26px;font-weight:800;color:var(–g1);margin-bottom:4px}
-.login-logo span{color:var(–g3)}
+#login-screen{display:flex;align-items:center;justify-content:center;min-height:100vh;background:linear-gradient(135deg,#0d0a00,#3a2800)}
+.login-box{background:white;border-radius:24px;padding:40px 36px;width:340px;box-shadow:0 20px 60px rgba(0,0,0,0.4)}
+.login-logo{font-size:24px;font-weight:800;color:var(–dark);margin-bottom:4px}
+.login-logo span{color:var(–amber)}
 .login-sub{font-size:13px;color:var(–muted);margin-bottom:28px}
 .field{margin-bottom:16px}
-.field label{display:block;font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(–muted);margin-bottom:6px}
-.field input{width:100%;padding:12px 14px;border:1.5px solid var(–line);border-radius:10px;font-family:‘Sora’,sans-serif;font-size:14px;color:var(–ink);outline:none;transition:border-color 0.15s}
-.field input:focus{border-color:var(–g1)}
-.login-btn{width:100%;padding:14px;background:var(–g1);color:white;border:none;border-radius:10px;font-family:‘Sora’,sans-serif;font-size:15px;font-weight:700;cursor:pointer;margin-top:8px;transition:background 0.15s}
-.login-btn:hover{background:var(–g2)}
-.login-error{font-size:13px;color:var(–r4);margin-top:10px;text-align:center;min-height:20px}
+.field label{display:block;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;color:var(–muted);margin-bottom:6px}
+.field input{width:100%;padding:12px 14px;border:1.5px solid var(–line);border-radius:10px;font-family:‘Sora’,sans-serif;font-size:14px;outline:none;transition:border-color 0.15s}
+.field input:focus{border-color:var(–amber)}
+.login-btn{width:100%;padding:14px;background:var(–dark);color:white;border:none;border-radius:10px;font-family:‘Sora’,sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background 0.15s}
+.login-btn:hover{background:#2a2000}
+.login-err{font-size:13px;color:var(–r4);margin-top:10px;text-align:center;min-height:18px}
 
-/* ── APP SHELL ── */
-#app-screen{display:none;min-height:100vh;flex-direction:column}
-nav{background:#1a1400;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
-.nav-brand{font-size:15px;font-weight:800;color:white}
-.nav-brand span{color:var(–g4)}
-.nav-tabs{display:flex;gap:4px}
-.nav-tab{padding:6px 13px;border-radius:6px;font-size:12px;font-weight:600;color:rgba(255,255,255,0.6);cursor:pointer;border:none;background:none;font-family:‘Sora’,sans-serif;transition:all 0.15s}
-.nav-tab:hover{color:white;background:rgba(255,255,255,0.1)}
-.nav-tab.active{color:white;background:rgba(255,255,255,0.18)}
-.nav-right{display:flex;align-items:center;gap:12px}
-.nav-user{font-size:12px;color:rgba(255,255,255,0.6);font-family:‘JetBrains Mono’,monospace}
-.logout-btn{font-size:12px;color:rgba(255,255,255,0.5);cursor:pointer;border:1px solid rgba(255,255,255,0.2);background:none;padding:4px 10px;border-radius:6px;font-family:‘Sora’,sans-serif;transition:all 0.15s}
-.logout-btn:hover{color:white;border-color:rgba(255,255,255,0.5)}
+/* ── LAYOUT ── */
+#app{display:none;min-height:100vh}
+nav{background:var(–dark);height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:200;box-shadow:0 2px 12px rgba(0,0,0,0.3)}
+.nav-brand{font-size:15px;font-weight:800;color:white;white-space:nowrap}
+.nav-brand span{color:var(–amber2)}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.nav-tabs::-webkit-scrollbar{display:none}
+.nav-tab{padding:6px 11px;border-radius:6px;font-size:11px;font-weight:600;color:rgba(255,255,255,0.55);cursor:pointer;border:none;background:none;font-family:‘Sora’,sans-serif;white-space:nowrap;transition:all 0.15s;flex-shrink:0}
+.nav-tab:hover{color:white;background:rgba(255,255,255,0.08)}
+.nav-tab.active{color:white;background:rgba(255,255,255,0.16)}
+.nav-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.nav-user{font-size:11px;color:rgba(255,255,255,0.5);font-family:‘JetBrains Mono’,monospace;display:none}
+@media(min-width:600px){.nav-user{display:block}}
+.logout-btn{font-size:11px;color:rgba(255,255,255,0.5);cursor:pointer;border:1px solid rgba(255,255,255,0.15);background:none;padding:4px 10px;border-radius:6px;font-family:‘Sora’,sans-serif}
 
 /* ── PAGES ── */
-.page{display:none;padding:24px;max-width:960px;margin:0 auto}
+.page{display:none;padding:20px;max-width:900px;margin:0 auto}
 .page.active{display:block}
-h2{font-size:20px;font-weight:800;color:var(–g1);margin-bottom:18px;letter-spacing:-0.3px}
-h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(–muted);margin-bottom:10px}
+h2{font-size:20px;font-weight:800;color:var(–dark);margin-bottom:16px}
+h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;color:var(–muted);margin-bottom:8px}
 
 /* ── CARDS ── */
-.card{background:white;border-radius:var(–radius);box-shadow:var(–shadow);border:1px solid var(–line);overflow:hidden;margin-bottom:16px}
-.card-header{background:#1a1400;color:white;padding:12px 18px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
-.card-subheader{background:var(–g5);color:var(–g1);padding:8px 18px;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.6px;border-bottom:1px solid var(–line)}
+.card{background:white;border-radius:var(–radius);box-shadow:var(–shadow);border:1px solid var(–line);overflow:hidden;margin-bottom:14px}
+.card-header{background:var(–dark);color:white;padding:11px 16px;font-size:13px;font-weight:700;display:flex;align-items:center;justify-content:space-between}
+.card-sub{background:var(–g5);color:var(–muted);padding:7px 16px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid var(–line)}
 
 /* ── CHECKLIST ── */
-.check-row{display:flex;align-items:center;padding:11px 18px;border-bottom:1px solid var(–line);gap:12px;cursor:pointer;transition:background 0.1s}
+.check-row{display:flex;align-items:center;padding:10px 16px;border-bottom:1px solid var(–line);gap:12px;cursor:pointer;transition:background 0.1s;-webkit-tap-highlight-color:transparent}
 .check-row:last-child{border-bottom:none}
-.check-row:hover{background:var(–g5)}
-.check-row.checked{background:var(–g5)}
-.circle-btn{width:24px;height:24px;border-radius:50%;border:2px solid #b8860b;background:white;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:12px;color:transparent;transition:all 0.15s}
-.circle-btn.done{background:#b8860b;border-color:var(–g1);color:white}
-.check-label{font-size:14px;color:var(–ink2);flex:1}
-.check-row.checked .check-label{color:var(–muted);text-decoration:line-through}
+.check-row:active,.check-row.done{background:var(–g5)}
+.chk{width:22px;height:22px;border-radius:50%;border:2px solid var(–line);background:white;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;color:transparent;transition:all 0.15s}
+.check-row.done .chk{background:var(–amber);border-color:var(–amber);color:white}
+.chk-label{font-size:13px;color:var(–ink2)}
+.check-row.done .chk-label{color:var(–muted);text-decoration:line-through}
 
 /* ── RATING ── */
-.rating-row{display:flex;align-items:center;padding:10px 18px;border-bottom:1px solid var(–line);gap:10px}
+.rating-row{display:flex;align-items:center;padding:9px 16px;border-bottom:1px solid var(–line);gap:8px}
 .rating-row:last-child{border-bottom:none}
-.rating-name{font-size:12px;font-weight:600;color:var(–ink);min-width:150px}
-.rating-pills{display:flex;gap:5px;flex:1}
-.rpill{flex:1;padding:5px 4px;border-radius:6px;border:1.5px solid;font-size:9px;font-weight:700;text-align:center;cursor:pointer;opacity:0.3;transition:opacity 0.15s;line-height:1.3}
+.rating-name{font-size:12px;font-weight:600;color:var(–ink);min-width:130px;flex-shrink:0}
+.rating-pills{display:flex;gap:4px;flex:1;flex-wrap:wrap}
+.rpill{flex:1;min-width:0;padding:5px 3px;border-radius:6px;border:1.5px solid;font-size:8.5px;font-weight:700;text-align:center;cursor:pointer;opacity:0.3;transition:opacity 0.15s;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .rpill.sel{opacity:1}
 .rp1{border-color:#1a5c2a;color:#1a5c2a;background:#e8f5eb}
 .rp2{border-color:#4caf50;color:#388e3c;background:#f1f9f1}
@@ -80,111 +82,126 @@ h3{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;
 .rp5{border-color:#b71c1c;color:#7f0000;background:#fdf0f0}
 
 /* ── STATS ── */
-.stats-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.stat-card{flex:1;min-width:120px;background:white;border-radius:var(–radius);border:1px solid var(–line);padding:16px;text-align:center;box-shadow:var(–shadow)}
-.stat-num{font-size:26px;font-weight:800;color:#b8860b;font-family:‘JetBrains Mono’,monospace}
-.stat-label{font-size:10px;color:var(–muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.5px}
-.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-@media(max-width:600px){.grid-2{grid-template-columns:1fr}}
-
-/* ── TIME SELECTOR ── */
-.time-selector{display:flex;gap:10px;margin-bottom:16px}
-.time-btn{flex:1;padding:12px;border-radius:10px;border:2px solid var(–line);background:white;font-family:‘JetBrains Mono’,monospace;font-size:15px;font-weight:600;color:var(–muted);cursor:pointer;transition:all 0.15s;text-align:center}
-.time-btn.active{background:var(–g1);border-color:var(–g1);color:white}
+.stats-row{display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.stat-card{flex:1;min-width:110px;background:white;border-radius:var(–radius);border:1px solid var(–line);padding:14px 12px;text-align:center;box-shadow:var(–shadow)}
+.stat-num{font-family:‘JetBrains Mono’,monospace;font-size:24px;font-weight:700;color:var(–amber)}
+.stat-lbl{font-size:10px;color:var(–muted);margin-top:3px;text-transform:uppercase;letter-spacing:0.4px}
 
 /* ── HERO ── */
-.hero{background:linear-gradient(135deg,var(–g0),var(–g1));border-radius:var(–radius);padding:22px;color:white;margin-bottom:20px;position:relative;overflow:hidden}
-.hero::after{content:’’;position:absolute;right:-20px;top:-20px;width:130px;height:130px;border-radius:50%;background:rgba(255,255,255,0.05)}
-.hero-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(–g4);margin-bottom:6px}
-.hero-day{font-size:26px;font-weight:800;letter-spacing:-0.5px}
-.hero-date{font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:14px}
-.hero-pills{display:flex;gap:8px;flex-wrap:wrap}
-.hero-pill{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.25);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;color:white}
+.hero{background:linear-gradient(135deg,#0d0a00,#3a2800);border-radius:var(–radius);padding:20px;color:white;margin-bottom:16px;position:relative;overflow:hidden}
+.hero::after{content:’’;position:absolute;right:-20px;top:-20px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,0.04)}
+.hero-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(–amber3);margin-bottom:5px}
+.hero-day{font-size:24px;font-weight:800;letter-spacing:-0.5px}
+.hero-date{font-size:12px;color:rgba(255,255,255,0.5);margin-bottom:12px}
+.hero-pills{display:flex;gap:6px;flex-wrap:wrap}
+.hero-pill{background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.15);border-radius:20px;padding:4px 10px;font-size:11px;font-weight:600;color:white}
 
-/* ── TABLE ── */
-.tbl{width:100%;border-collapse:collapse;font-size:13px}
-.tbl th{background:var(–g5);color:var(–g1);padding:10px 14px;text-align:left;font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:0.4px;border-bottom:2px solid var(–line)}
-.tbl td{padding:10px 14px;border-bottom:1px solid var(–line);color:var(–ink2)}
-.tbl tr:last-child td{border-bottom:none}
-.tbl tr:hover td{background:var(–g5)}
-.badge{display:inline-block;padding:3px 8px;border-radius:12px;font-size:11px;font-weight:700}
-.bg{background:var(–g5);color:var(–g1)}.bo{background:#fff3e0;color:#e65100}.br{background:#fdecea;color:#c62828}
+/* ── WEEKLY BANNER ── */
+.weekly{background:linear-gradient(135deg,#0d0a00,#2a1e00);border-radius:var(–radius);padding:16px;color:white;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.weekly-num{font-family:‘JetBrains Mono’,monospace;font-size:34px;font-weight:700;color:var(–amber2)}
+.weekly-lbl{font-size:10px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
+.weekly-items{display:flex;flex-direction:column;gap:5px}
+.weekly-item{display:flex;align-items:center;gap:7px;font-size:12px;font-weight:500}
+.wdot{width:7px;height:7px;border-radius:50%;background:var(–amber2);flex-shrink:0}
 
-/* ── FEEDBACK ── */
-.fb-header-row{display:flex;align-items:center;padding:8px 18px;background:var(–g5);border-bottom:2px solid var(–line)}
-.fb-num-col{width:30px;font-size:10px;font-weight:700;text-transform:uppercase;color:var(–muted)}
-.fb-dots-header{display:flex;flex:1;gap:4px}
-.fb-dot-hdr{flex:1;text-align:center;font-size:8.5px;font-weight:700;line-height:1.3;padding:0 2px}
-.fb-row{display:flex;align-items:center;padding:9px 18px;border-bottom:1px solid var(–line)}
-.fb-row:last-child{border-bottom:none}
-.fb-num{width:30px;font-family:‘JetBrains Mono’,monospace;font-size:13px;font-weight:700;color:var(–g1)}
-.fb-dots{display:flex;flex:1;gap:4px}
-.fb-dot{flex:1;height:26px;border-radius:6px;border:2px solid;cursor:pointer;opacity:0.25;transition:opacity 0.15s}
-.fb-dot.sel{opacity:1}
-.fb-legend{padding:10px 18px;background:var(–g5);display:flex;flex-wrap:wrap;gap:4px 14px;border-top:1px solid var(–line)}
-.fb-legend-item{font-size:11px;color:var(–ink2)}
-.fb-legend-item strong{color:var(–g1)}
+/* ── TIME SELECTOR ── */
+.time-sel{display:flex;gap:8px;margin-bottom:16px}
+.time-btn{flex:1;padding:11px 6px;border-radius:10px;border:2px solid var(–line);background:white;font-family:‘JetBrains Mono’,monospace;font-size:14px;font-weight:600;color:var(–muted);cursor:pointer;text-align:center;transition:all 0.15s}
+.time-btn.active{background:var(–dark);border-color:var(–dark);color:white}
+
+/* ── GRID ── */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.grid-2{grid-template-columns:1fr}}
 
 /* ── TEXTAREA ── */
-textarea{width:100%;border:1.5px solid var(–line);border-radius:8px;padding:10px 12px;font-family:‘Sora’,sans-serif;font-size:14px;color:var(–ink);resize:vertical;min-height:80px;outline:none;transition:border-color 0.15s;background:var(–g5)}
-textarea:focus{border-color:var(–g1)}
+textarea{width:100%;border:1.5px solid var(–line);border-radius:8px;padding:10px 12px;font-family:‘Sora’,sans-serif;font-size:13px;color:var(–ink);resize:vertical;min-height:70px;outline:none;background:var(–g5);transition:border-color 0.15s}
+textarea:focus{border-color:var(–amber)}
 
 /* ── BTN ── */
-.btn{background:var(–g1);color:white;border:none;padding:13px 28px;border-radius:10px;font-family:‘Sora’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;transition:background 0.15s;margin-top:12px;display:inline-flex;align-items:center;gap:8px}
-.btn:hover{background:var(–g2)}
+.btn{background:var(–dark);color:white;border:none;padding:13px 24px;border-radius:10px;font-family:‘Sora’,sans-serif;font-size:14px;font-weight:700;cursor:pointer;margin-top:12px;display:inline-flex;align-items:center;gap:8px;transition:background 0.15s}
+.btn:hover{background:#2a2000}
 .btn:active{transform:scale(0.98)}
-.btn.saving{background:var(–g3);pointer-events:none}
+.btn.ok{background:#2d7a40}
+
+/* ── INFO BOX ── */
+.info-box{background:var(–g5);border:1px solid var(–line);border-radius:10px;padding:12px 14px;margin-bottom:14px;font-size:13px;color:var(–ink2);line-height:1.5}
+.info-box strong{color:var(–dark)}
+
+/* ── ACTIVITY TABLE ── */
+.tbl{width:100%;border-collapse:collapse;font-size:12px}
+.tbl th{background:var(–g5);color:var(–muted);padding:8px 12px;text-align:left;font-weight:700;font-size:10px;text-transform:uppercase;letter-spacing:0.4px;border-bottom:2px solid var(–line)}
+.tbl td{padding:9px 12px;border-bottom:1px solid var(–line);color:var(–ink2)}
+.tbl tr:last-child td{border-bottom:none}
+.badge{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700}
+.bg{background:var(–g5);color:var(–amber)}.bo{background:#fff3e0;color:#e65100}.bt{background:#f5f5f5;color:#999}
+
+/* ── ADD TASK ── */
+.add-task{display:flex;gap:8px;padding:10px 16px;border-top:1px solid var(–line);background:var(–g5)}
+.add-task input{flex:1;padding:8px 10px;border:1.5px solid var(–line);border-radius:8px;font-family:‘Sora’,sans-serif;font-size:13px;outline:none;background:white}
+.add-task input:focus{border-color:var(–amber)}
+.add-btn{padding:8px 14px;background:var(–amber);color:white;border:none;border-radius:8px;font-family:‘Sora’,sans-serif;font-size:13px;font-weight:700;cursor:pointer}
+
+/* ── HISTORY CARDS ── */
+.hist-filter{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+.filt-btn{padding:6px 12px;border-radius:20px;border:1.5px solid var(–line);background:white;font-family:‘Sora’,sans-serif;font-size:12px;font-weight:600;color:var(–muted);cursor:pointer;transition:all 0.15s}
+.filt-btn.active{background:var(–dark);border-color:var(–dark);color:white}
+.hist-card{background:white;border-radius:var(–radius);border:1px solid var(–line);padding:14px 16px;margin-bottom:10px;cursor:pointer;transition:box-shadow 0.15s}
+.hist-card:hover{box-shadow:var(–shadow)}
+.hist-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+.hist-cat{font-size:12px;font-weight:700;color:var(–amber)}
+.hist-date{font-family:‘JetBrains Mono’,monospace;font-size:11px;color:var(–muted)}
+.hist-user{font-size:12px;color:var(–ink2)}
+.hist-status{font-size:11px;color:var(–muted);margin-top:2px}
+
+/* ── PRIS ROWS ── */
+.pris-row{display:flex;align-items:center;padding:9px 16px;border-bottom:1px solid var(–line);gap:12px}
+.pris-row:last-child{border-bottom:none}
+.pris-name{flex:1;font-size:13px;font-weight:600;color:var(–ink)}
+.pris-inputs{display:flex;gap:8px;align-items:center;font-size:12px;color:var(–muted)}
+.pris-inputs input{width:50px;padding:5px 6px;border:1.5px solid var(–line);border-radius:6px;font-family:‘Sora’,sans-serif;text-align:center;outline:none}
+.pris-inputs input:focus{border-color:var(–amber)}
 
 /* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(–g0);color:white;padding:12px 24px;border-radius:12px;font-size:14px;font-weight:600;z-index:999;transition:transform 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(80px);background:var(–dark);color:white;padding:12px 22px;border-radius:12px;font-size:14px;font-weight:600;z-index:999;transition:transform 0.3s;box-shadow:0 4px 20px rgba(0,0,0,0.3);white-space:nowrap}
 .toast.show{transform:translateX(-50%) translateY(0)}
 
-/* ── ROLE BADGE ── */
-.role-leder{background:linear-gradient(135deg,#1a1a2e,var(–g1));color:white;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
-
-.weekly-banner{background:linear-gradient(135deg,#1a1400,#3a2800);border-radius:var(–radius);padding:18px 20px;color:white;display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-.weekly-uge{font-family:‘JetBrains Mono’,monospace;font-size:36px;font-weight:800;color:var(–g3)}
-.weekly-info{display:flex;flex-direction:column;gap:6px}
-.weekly-item{font-size:12px;font-weight:500;display:flex;align-items:center;gap:8px}
-.wdot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
-.gap{margin-bottom:20px}
+.gap{margin-top:16px}
+.section-gap{margin-top:20px}
 </style>
 
 </head>
 <body>
 
-<!-- ── LOGIN ── -->
+<!-- LOGIN -->
 
 <div id="login-screen">
   <div class="login-box">
     <div class="login-logo">Netto <span>Bella</span></div>
     <div class="login-sub">Log ind for at fortsætte</div>
-    <div class="field">
-      <label>Email</label>
-      <input type="email" id="login-email" placeholder="din@email.dk" autocomplete="email">
-    </div>
-    <div class="field">
-      <label>Adgangskode</label>
-      <input type="password" id="login-password" placeholder="••••••••" autocomplete="current-password">
-    </div>
+    <div class="field"><label>Email</label><input type="email" id="em" placeholder="din@email.dk"></div>
+    <div class="field"><label>Adgangskode</label><input type="password" id="pw" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
     <button class="login-btn" onclick="doLogin()">Log ind</button>
-    <div class="login-error" id="login-error"></div>
+    <div class="login-err" id="lerr"></div>
   </div>
 </div>
 
-<!-- ── APP ── -->
+<!-- APP -->
 
-<div id="app-screen" style="display:none;flex-direction:column">
+<div id="app">
   <nav>
     <div class="nav-brand">Netto <span>Bella</span></div>
-    <div class="nav-tabs">
-      <button class="nav-tab active" onclick="showPage('dashboard',this)">Dashboard</button>
-      <button class="nav-tab" onclick="showPage('butiksrunde',this)">Butiksrunde</button>
-      <button class="nav-tab" onclick="showPage('fokus',this)">Fokusområder</button>
-      <button class="nav-tab leder-only" onclick="showPage('leder',this)" style="display:none">Leder</button>
+    <div class="nav-tabs" id="nav-tabs">
+      <button class="nav-tab active" onclick="goTo('dashboard',this)">Dashboard</button>
+      <button class="nav-tab" onclick="goTo('butiksrunde',this)">Butiksrunde</button>
+      <button class="nav-tab" onclick="goTo('fokus',this)">Fokusområder</button>
+      <button class="nav-tab" onclick="goTo('morgenfeedback',this)">Morgenfeedback</button>
+      <button class="nav-tab" onclick="goTo('leder',this)">Leder</button>
+      <button class="nav-tab" onclick="goTo('priskontrol',this)">Priskontrol</button>
+      <button class="nav-tab" onclick="goTo('datokontrol',this)">Dato Kontrol</button>
+      <button class="nav-tab" onclick="goTo('tidligere',this)">Tidligere dage</button>
     </div>
     <div class="nav-right">
-      <span class="nav-user" id="nav-username"></span>
+      <span class="nav-user" id="nav-user"></span>
       <button class="logout-btn" onclick="doLogout()">Log ud</button>
     </div>
   </nav>
@@ -193,152 +210,149 @@ textarea:focus{border-color:var(–g1)}
 
   <div class="page active" id="page-dashboard">
     <div class="hero">
-      <div class="hero-label">I dag</div>
+      <div class="hero-lbl">I dag</div>
       <div class="hero-day" id="hero-day"></div>
       <div class="hero-date" id="hero-date"></div>
       <div class="hero-pills">
         <div class="hero-pill" id="hp-runde">0/3 runder</div>
-        <div class="hero-pill" id="hp-fokus">0/14 fokus</div>
+        <div class="hero-pill" id="hp-fokus">Fokus afventer</div>
       </div>
     </div>
-
-```
-<h3>Daglig status</h3>
-<div class="stats-row">
-  <div class="stat-card">
-    <div class="stat-num" id="stat-runde">0/3</div>
-    <div class="stat-label">Butiksrunder i dag</div>
-  </div>
-  <div class="stat-card">
-    <div class="stat-num" id="stat-fokus">—</div>
-    <div class="stat-label">Fokusopgaver</div>
-  </div>
-</div>
-
-<h3 style="margin-top:8px">Ugentlig</h3>
-<div class="weekly-banner">
-  <div>
-    <div style="font-size:11px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px">Aktuel uge</div>
-    <div class="weekly-uge" id="uge-num">—</div>
-  </div>
-  <div class="weekly-info">
-    <div class="weekly-item"><div class="wdot" style="background:var(--g3)"></div>Ugerapport — afventer</div>
-    <div class="weekly-item"><div class="wdot" style="background:var(--g3)"></div>Priskontrol — afventer</div>
-  </div>
-</div>
-
-<h3>Seneste aktivitet</h3>
-<div class="card">
-  <div class="card-body">
-    <table class="tbl">
-      <thead><tr><th>Skema</th><th>Bruger</th><th>Tid</th><th>Status</th></tr></thead>
-      <tbody id="activity-tbody">
-        <tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Indlæser aktivitet...</td></tr>
-      </tbody>
-    </table>
-  </div>
-</div>
-```
-
+    <h3>Daglig status</h3>
+    <div class="stats-row">
+      <div class="stat-card"><div class="stat-num" id="s-runde">0/3</div><div class="stat-lbl">Butiksrunder</div></div>
+      <div class="stat-card"><div class="stat-num" id="s-fokus">—</div><div class="stat-lbl">Fokusopgaver</div></div>
+    </div>
+    <h3>Ugentlig</h3>
+    <div class="weekly">
+      <div><div class="weekly-lbl">Aktuel uge</div><div class="weekly-num" id="uge-num">—</div></div>
+      <div class="weekly-items">
+        <div class="weekly-item"><div class="wdot"></div>Ugerapport — afventer</div>
+        <div class="weekly-item"><div class="wdot"></div>Priskontrol — afventer</div>
+      </div>
+    </div>
+    <h3>Seneste aktivitet</h3>
+    <div class="card">
+      <table class="tbl">
+        <thead><tr><th>Skema</th><th>Bruger</th><th>Tid</th><th>Status</th></tr></thead>
+        <tbody id="act-tbody"><tr><td colspan="4" style="text-align:center;color:var(--muted);padding:16px">Ingen aktivitet endnu</td></tr></tbody>
+      </table>
+    </div>
   </div>
 
   <!-- BUTIKSRUNDE -->
 
   <div class="page" id="page-butiksrunde">
     <h2>Butiksrunde</h2>
-    <div class="time-selector">
-      <div class="time-btn active" onclick="selectTime(this,'06:30')">06:30</div>
-      <div class="time-btn" onclick="selectTime(this,'12:00')">12:00</div>
-      <div class="time-btn" onclick="selectTime(this,'17:00')">17:00</div>
+    <div class="time-sel">
+      <div class="time-btn active" onclick="selTime(this,'06:30')">06:30</div>
+      <div class="time-btn" onclick="selTime(this,'12:00')">12:00</div>
+      <div class="time-btn" onclick="selTime(this,'17:00')">17:00</div>
     </div>
     <div id="runde-zones"></div>
-    <div class="card">
-      <div class="card-header">Overordnede noter</div>
-      <div style="padding:14px"><textarea id="runde-noter" placeholder="Skriv noter, afvigelser eller opfølgningspunkter..."></textarea></div>
-    </div>
-    <button class="btn" onclick="gemRundeForm()">✓ Gem butiksrunde</button>
+    <div class="card gap"><div class="card-header">Overordnede noter</div><div style="padding:12px"><textarea id="runde-noter" placeholder="Skriv noter, afvigelser eller opfølgningspunkter..."></textarea></div></div>
+    <button class="btn" onclick="gemRunde()">✓ Gem butiksrunde</button>
   </div>
 
-  <!-- FOKUS -->
+  <!-- FOKUSOMRÅDER -->
 
   <div class="page" id="page-fokus">
     <h2>Fokusområder</h2>
     <div class="grid-2">
       <div class="card">
-        <div class="card-header">Løst af MA</div>
+        <div class="card-header">Supervisor områder <span id="ma-count" style="font-weight:400;opacity:0.7;font-size:11px">0/8</span></div>
         <div id="fokus-ma"></div>
+        <div class="add-task"><input type="text" id="ma-input" placeholder="Tilføj ekstra opgave..."><button class="add-btn" onclick="addTask('ma')">+</button></div>
       </div>
       <div class="card">
-        <div class="card-header">Kasselinje</div>
+        <div class="card-header">Kasselinje <span id="kasse-count" style="font-weight:400;opacity:0.7;font-size:11px">0/6</span></div>
         <div id="fokus-kasse"></div>
+        <div class="add-task"><input type="text" id="kasse-input" placeholder="Tilføj ekstra opgave..."><button class="add-btn" onclick="addTask('kasse')">+</button></div>
       </div>
     </div>
-
-```
-<div class="card gap">
-  <div class="card-header">Feedback fra morgenholdet</div>
-  <div class="fb-header-row">
-    <div class="fb-num-col">#</div>
-    <div class="fb-dots-header" id="fb-header"></div>
-  </div>
-  <div id="fb-rows"></div>
-  <div class="fb-legend" id="fb-legend"></div>
-</div>
-
-<div class="card">
-  <div class="card-header">Overordnede noter til næste hold</div>
-  <div style="padding:14px"><textarea id="fokus-noter" placeholder="Skriv noter til næste hold..."></textarea></div>
-</div>
-<button class="btn" onclick="gemFokusForm()">✓ Gem fokusområder</button>
-```
-
+    <div class="card gap"><div class="card-header">Overordnede noter til næste hold</div><div style="padding:12px"><textarea id="fokus-noter" placeholder="Skriv noter til næste hold..."></textarea></div></div>
+    <button class="btn" onclick="gemFokus()">✓ Gem fokusområder</button>
   </div>
 
-  <!-- LEDER -->
+  <!-- MORGENFEEDBACK -->
+
+  <div class="page" id="page-morgenfeedback">
+    <h2>Morgenfeedback</h2>
+    <div class="card">
+      <div class="card-header">Vurdering af dagens standard</div>
+      <div class="card-sub">VK = Verdensklasse &nbsp;·&nbsp; BT = Bedre end tilfredsst. &nbsp;·&nbsp; TF = Tilfredsstillende &nbsp;·&nbsp; IT = Ikke tilfredsst. &nbsp;·&nbsp; LF = Langt fra tilfredsst.</div>
+      <div id="morgen-rows"></div>
+    </div>
+    <div class="card gap"><div class="card-header">Noter til næste hold</div><div style="padding:12px"><textarea id="morgen-noter" placeholder="Skriv hvad næste hold skal vide..."></textarea></div></div>
+    <button class="btn" onclick="gemMorgen()">✓ Gem morgenfeedback</button>
+  </div>
+
+  <!-- LEDER UGERAPPORT -->
 
   <div class="page" id="page-leder">
-    <h2>Leder — Ugerapport & Priskontrol <span style="font-size:13px;font-weight:400;color:var(--muted)">Udfyldes hver fredag</span></h2>
-
-```
-<div class="card">
-  <div class="card-header">Afdelingsvurderinger</div>
-  <div class="card-subheader">
-    <span style="margin-right:16px">VK = Verdensklasse</span>
-    <span style="margin-right:16px">B = Bedre end tilfredsst.</span>
-    <span style="margin-right:16px">T = Tilfredsstillende</span>
-    <span style="margin-right:16px">I = Ikke tilfredsst.</span>
-    <span>L = Langt fra tilfredsst.</span>
-  </div>
-  <div id="leder-ratings"></div>
-</div>
-
-<div class="grid-2">
-  <div class="card">
-    <div class="card-header">Opfølgning fra forrige uge</div>
-    <div style="padding:14px"><textarea id="leder-opf" placeholder="Hvad lå der fra forrige uge?"></textarea></div>
-  </div>
-  <div class="card">
-    <div class="card-header">Afvigelser & handlinger</div>
-    <div style="padding:14px"><textarea id="leder-afv" placeholder="Hvad gik galt og hvad blev gjort?"></textarea></div>
-  </div>
-</div>
-
-<div class="card">
-  <div class="card-header">Priskontrol — Spot Områder <span style="font-weight:400;opacity:0.7;font-size:11px;margin-left:8px">Ugentlig fredag</span></div>
-  <div id="pris-rows"></div>
-</div>
-
-<button class="btn" onclick="gemLederForm()">✓ Gem ugerapport & priskontrol</button>
-```
-
+    <h2>Leder Ugerapport <span style="font-size:13px;font-weight:400;color:var(--muted)">Udfyldes hver fredag</span></h2>
+    <div class="card">
+      <div class="card-header">Afdelingsvurderinger</div>
+      <div class="card-sub">VK = Verdensklasse &nbsp;·&nbsp; BT = Bedre end tilfredsst. &nbsp;·&nbsp; TF = Tilfredsstillende &nbsp;·&nbsp; IT = Ikke tilfredsst. &nbsp;·&nbsp; LF = Langt fra tilfredsst.</div>
+      <div id="leder-rows"></div>
+    </div>
+    <div class="grid-2 gap">
+      <div class="card"><div class="card-header">Opfølgning fra forrige uge</div><div style="padding:12px"><textarea id="leder-opf" placeholder="Hvad lå der fra forrige uge?"></textarea></div></div>
+      <div class="card"><div class="card-header">Afvigelser & handlinger</div><div style="padding:12px"><textarea id="leder-afv" placeholder="Hvad gik galt og hvad blev gjort?"></textarea></div></div>
+    </div>
+    <button class="btn" onclick="gemLeder()">✓ Gem ugerapport</button>
   </div>
 
-</div>
+  <!-- PRISKONTROL -->
 
+  <div class="page" id="page-priskontrol">
+    <h2>Priskontrol <span style="font-size:13px;font-weight:400;color:var(--muted)">Udfyldes hver fredag</span></h2>
+    <div class="card">
+      <div class="card-header">Spot Områder</div>
+      <div class="card-sub">Antal manglende og forkerte priser per område</div>
+      <div id="pris-rows"></div>
+    </div>
+    <button class="btn" onclick="gemPris()">✓ Gem priskontrol</button>
+  </div>
+
+  <!-- DATO KONTROL -->
+
+  <div class="page" id="page-datokontrol">
+    <h2>Dato Kontrol — Køl & Ost</h2>
+    <div class="info-box">
+      <strong>Udføres 4 gange ugentligt: Mandag, Onsdag, Fredag og Søndag</strong><br><br>
+      Tjek 5 dage frem og tag alle varer der udløber i dag ud og placer dem i datoboksen.
+    </div>
+    <div class="card">
+      <div class="card-header">Afkrydsning</div>
+      <div class="check-row" onclick="toggleCheck(this)"><div class="chk">✓</div><div class="chk-label">Køl — tjekket og datovarer placeret i datoboks</div></div>
+      <div class="check-row" onclick="toggleCheck(this)"><div class="chk">✓</div><div class="chk-label">Ost — tjekket og datovarer placeret i datoboks</div></div>
+      <div class="check-row" onclick="toggleCheck(this)"><div class="chk">✓</div><div class="chk-label">Spot Køl — tjekket og datovarer placeret i datoboks</div></div>
+    </div>
+    <div class="card gap"><div class="card-header">Noter — varer taget ud i dag</div><div style="padding:12px"><textarea id="dato-noter" placeholder="Skriv hvilke varer der er taget ud, mængde eller andre observationer..."></textarea></div></div>
+    <button class="btn" onclick="gemDato()">✓ Gem dato kontrol</button>
+  </div>
+
+  <!-- TIDLIGERE DAGE -->
+
+  <div class="page" id="page-tidligere">
+    <h2>Tidligere dage</h2>
+    <div class="hist-filter" id="hist-filter">
+      <div class="filt-btn active" onclick="filterHist('alle',this)">Alle</div>
+      <div class="filt-btn" onclick="filterHist('butiksrunde',this)">Butiksrunde</div>
+      <div class="filt-btn" onclick="filterHist('fokus',this)">Fokusområder</div>
+      <div class="filt-btn" onclick="filterHist('morgenfeedback',this)">Morgenfeedback</div>
+      <div class="filt-btn" onclick="filterHist('leder',this)">Ugerapport</div>
+      <div class="filt-btn" onclick="filterHist('priskontrol',this)">Priskontrol</div>
+      <div class="filt-btn" onclick="filterHist('datokontrol',this)">Dato Kontrol</div>
+    </div>
+    <div id="hist-list"><div style="text-align:center;color:var(--muted);padding:30px">Indlæser historik...</div></div>
+  </div>
+
+</div>
 <div class="toast" id="toast"></div>
 
 <script>
-// ── SUPABASE ───────────────────────────────────────────────
 const { createClient } = supabase;
 const sb = createClient(
   'https://isnrslwqvtgjrhhhrhme.supabase.co',
@@ -346,328 +360,296 @@ const sb = createClient(
 );
 
 let currentUser = null;
-let currentProfile = null;
 let selectedTime = '06:30';
 const rundeState = {};
-const fokusState = { ma: {}, kasse: {} };
+const fokusState = { ma:{}, kasse:{} };
+const morgenState = {};
 const lederState = {};
-const fbState = {};
-const prisState = {};
+let histData = [];
+let histFilter = 'alle';
 
-// ── DATA ───────────────────────────────────────────────────
-const rundeZones = [
-  {name:'Udenfor & Indgang', tasks:['Rent og ryddeligt ved indgang','Aktuel og offensiv','Kurve/vogne ryddet og tilgængelige','Automatiske døre fungerer']},
-  {name:'Frugt & Grønt', tasks:['Rent og ryddeligt område','Opfyldt og præsentabelt','Kvalitet og friskhed','Udstilling salgsklar']},
-  {name:'Køl & Frost', tasks:['Rent og ryddeligt','Opfyldt og ingen huller','Korrekte og synlige priser','Frost bokse opfyldte']},
-  {name:'Kød & Convenience', tasks:['Rent og ryddeligt','Opfyldt og præsentabelt','Korrekte og synlige priser','Spot boks salgsklar']},
-  {name:'Spot Områder', tasks:['Rent og ryddeligt','Spots opfyldte og salgsklar','Ingen tomme udstillinger','Korrekte priser']},
-  {name:'Tørvarer & Hylder', tasks:['Rent og ryddeligt','Trimning — ingen tomme fronter','Korrekte og synlige priser','Hyldeforkanter på plads']},
-  {name:'Brød & Bake-off', tasks:['Rent og ryddeligt','Opfyldt og præsentabelt','Udstilling indbydende','Korrekte og synlige priser']},
-  {name:'Drikkevarer, Vin & Øl', tasks:['Rent og ryddeligt','Opfyldt — ingen huller','Køleskab opfyldt og lukket','Udstilling salgsklar']},
-  {name:'Kasselinje', tasks:['Rent og ryddeligt','Impulsvarer opfyldt','Kasser fungerer','Returvarer samles']},
-  {name:'Lager & Bagrum', tasks:['Rent og ryddeligt','Skrald og pap fjernet','Varer placeret korrekt','Generel orden og overblik']},
+// DATA
+const zones = [
+  {name:'Udenfor & Indgang',tasks:['Rent og ryddeligt ved indgang','Aktuel og offensiv','Kurve/vogne ryddet og tilgængelige','Automatiske døre fungerer']},
+  {name:'Frugt & Grønt',tasks:['Rent og ryddeligt område','Opfyldt og præsentabelt — ingen huller','Kvalitet og friskhed — fjern dårlige varer','Udstilling salgsklar og indbydende']},
+  {name:'Køl & Frost — Mejeri, Pålæg & Ost',tasks:['Rent og ryddeligt','Opfyldt og ingen huller i hylder','Korrekte og synlige priser','Frost bokse opfyldte']},
+  {name:'Køl — Kød & Convenience',tasks:['Rent og ryddeligt','Opfyldt og præsentabelt','Korrekte og synlige priser','Spot boks salgsklar og indbydende']},
+  {name:'Spot Områder',tasks:['Rent og ryddeligt omkring alle spots','Spots er opfyldte og salgsklar','Ingen tomme eller rodede udstillinger','Korrekte og synlige priser']},
+  {name:'Tørvarer & Hylder',tasks:['Rent og ryddeligt i gangene','Trimning — ingen tomme fronter','Korrekte og synlige priser','Hyldeforkanter på plads']},
+  {name:'Brød & Bake-off',tasks:['Rent og ryddeligt — Brødhuset i orden','Opfyldt og præsentabelt','Udstilling indbydende og salgsklar','Korrekte og synlige priser']},
+  {name:'Drikkevarer, Vin & Øl',tasks:['Rent og ryddeligt område','Opfyldt — ingen huller','Køleskab opfyldt og lukket','Udstilling salgsklar og indbydende']},
+  {name:'Kasselinje',tasks:['Rent og ryddeligt — ingen fremmedgenstande','Impulsvarer opfyldt ved kasse','Kasser fungerer og er klar','Returvarer samles']},
+  {name:'Lager & Bagrum',tasks:['Rent og ryddeligt — fri gangbane','Skrald og pap fjernet','Varer placeret korrekt','Generel orden og overblik']},
 ];
 const fokusMA = ['Modtagelse af butikken','Dødsrunde','Lager oprydning','Opfyld Fresh-områder','Turbo trim kolo','Kvalitetsrunder','Trim ¼ område','Lukkerutiner'];
 const fokusKasse = ['Samle returvarer','Ryd op i kasse 1 og 2','Rengør kasselinjeområde','Turbo trim','Køleskabsliste','Opfyld køleskab'];
-const spotOmraader = ['Food Spot','Nonfood Spot','Sæson Spot','Slik Spot','Pers. Pleje Spot','Nearfood Spot','Chips Spot','Drikke Spot','Køl og Ost Spot','Brød Spot','Knækbrød Spot'];
-const depts = rundeZones.map(z => z.name);
-const rLabels = ['VK','B.e.T','Tilf.','Ikke','Langt'];
+const spotOmr = ['Food Spot','Nonfood Spot','Sæson Spot','Slik Spot','Pers. Pleje Spot','Nearfood Spot','Chips Spot','Drikke Spot','Køl og Ost Spot','Brød Spot','Knækbrød Spot'];
+const depts = zones.map(z=>z.name);
+const rLabels = ['VK','BT','TF','IT','LF'];
 const rClasses = ['rp1','rp2','rp3','rp4','rp5'];
-const rColors = ['#1a5c2a','#4caf50','#ff9800','#f44336','#b71c1c'];
-const fbFullLabels = ['Verdensklasse','Bedre end tilfredsst.','Tilfredsstillende','Ikke tilfredsst.','Langt fra tilfredsst.'];
 
-// ── AUTH ───────────────────────────────────────────────────
-async function doLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const pass  = document.getElementById('login-password').value;
-  document.getElementById('login-error').textContent = '';
-  if (!email || !pass) { document.getElementById('login-error').textContent = 'Udfyld email og adgangskode.'; return; }
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pass });
-  if (error) { document.getElementById('login-error').textContent = 'Forkert email eller adgangskode.'; return; }
-  await loadProfile(data.user);
-}
-
-async function loadProfile(user) {
-  currentUser = user;
-  const { data } = await sb.from('profiles').select('*').eq('id', user.id).single();
-  currentProfile = data;
+// AUTH
+async function doLogin(){
+  const em=document.getElementById('em').value.trim();
+  const pw=document.getElementById('pw').value;
+  document.getElementById('lerr').textContent='';
+  if(!em||!pw){document.getElementById('lerr').textContent='Udfyld email og adgangskode.';return}
+  const {data,error}=await sb.auth.signInWithPassword({email:em,password:pw});
+  if(error){document.getElementById('lerr').textContent='Forkert email eller adgangskode.';return}
+  currentUser=data.user;
   startApp();
 }
-
-async function doLogout() {
+async function doLogout(){
   await sb.auth.signOut();
-  document.getElementById('app-screen').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  currentUser = null; currentProfile = null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  currentUser=null;
 }
-
-function startApp() {
-  document.getElementById('login-screen').style.display = 'none';
-  document.getElementById('app-screen').style.display = 'flex';
-  const name = currentProfile?.navn || currentUser.email.split('@')[0];
-  document.getElementById('nav-username').textContent = name;
-  // Show leder tab if role is leder
-  if (currentProfile?.rolle === 'leder') {
-    document.querySelectorAll('.leder-only').forEach(el => el.style.display = '');
-  }
+function startApp(){
+  document.getElementById('login-screen').style.display='none';
+  document.getElementById('app').style.display='block';
+  const name=currentUser.email.split('@')[0];
+  document.getElementById('nav-user').textContent=name;
   buildAll();
+  setDate();
   loadDashboard();
-  setDateInfo();
 }
 
-// ── DATE ───────────────────────────────────────────────────
-function setDateInfo() {
-  const days = ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'];
-  const months = ['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
-  const d = new Date();
-  document.getElementById('hero-day').textContent = days[d.getDay()];
-  document.getElementById('hero-date').textContent = `${d.getDate()}. ${months[d.getMonth()]} ${d.getFullYear()}`;
-  document.getElementById('uge-num').textContent = getWeek(d);
+// DATE & WEEK
+function getWeek(d){
+  const dt=new Date(Date.UTC(d.getFullYear(),d.getMonth(),d.getDate()));
+  const day=dt.getUTCDay()||7;
+  dt.setUTCDate(dt.getUTCDate()+4-day);
+  const ys=new Date(Date.UTC(dt.getUTCFullYear(),0,1));
+  return Math.ceil((((dt-ys)/86400000)+1)/7);
 }
-function getWeek(d) {
-  const date = new Date(Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()));
-  const day = date.getUTCDay() || 7;
-  date.setUTCDate(date.getUTCDate() + 4 - day);
-  const yearStart = new Date(Date.UTC(date.getUTCFullYear(), 0, 1));
-  return Math.ceil((((date - yearStart) / 86400000) + 1) / 7);
-}
-
-// ── DASHBOARD ──────────────────────────────────────────────
-async function loadDashboard() {
-  const today = new Date().toISOString().split('T')[0];
-  // Butiksrunder today
-  const { data: runder } = await sb.from('butiksrunder').select('tidspunkt,oprettet_at').gte('oprettet_at', today);
-  const rundeCount = runder ? runder.length : 0;
-  document.getElementById('stat-runde').textContent = `${rundeCount}/3`;
-  document.getElementById('hp-runde').textContent = `${rundeCount}/3 runder`;
-
-  // Fokus today
-  const { data: fokus } = await sb.from('fokusomraader').select('oprettet_at').gte('oprettet_at', today);
-  const fokusOk = fokus && fokus.length > 0 ? '✓' : '—';
-  document.getElementById('stat-fokus').textContent = fokusOk;
-  document.getElementById('hp-fokus').textContent = fokus && fokus.length > 0 ? 'Fokus udfyldt' : 'Fokus mangler';
-
-  // Activity feed
-  const { data: activity } = await sb.from('aktivitet').select('*').order('oprettet_at', { ascending: false }).limit(6);
-  const tbody = document.getElementById('activity-tbody');
-  if (activity && activity.length > 0) {
-    tbody.innerHTML = activity.map(a => {
-      const tid = new Date(a.oprettet_at).toLocaleTimeString('da-DK', { hour: '2-digit', minute: '2-digit' });
-      const badge = a.status === 'fuldfort' ? '<span class="badge bg">Fuldført</span>' : '<span class="badge bo">Delvist</span>';
-      return `<tr><td>${a.skema}</td><td>${a.bruger_navn||'—'}</td><td>${tid}</td><td>${badge}</td></tr>`;
-    }).join('');
-  } else {
-    tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;color:var(--muted);padding:20px">Ingen aktivitet registreret i dag endnu</td></tr>';
-  }
+function setDate(){
+  const days=['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'];
+  const months=['jan','feb','mar','apr','maj','jun','jul','aug','sep','okt','nov','dec'];
+  const d=new Date();
+  document.getElementById('hero-day').textContent=days[d.getDay()];
+  document.getElementById('hero-date').textContent=`${d.getDate()}. ${months[d.getMonth()]} ${d.getFullYear()}`;
+  document.getElementById('uge-num').textContent=getWeek(d);
 }
 
-// ── BUILD UI ───────────────────────────────────────────────
-function buildAll() {
+// DASHBOARD
+async function loadDashboard(){
+  const today=new Date().toISOString().split('T')[0];
+  try{
+    const {data:runder}=await sb.from('butiksrunder').select('tidspunkt').gte('oprettet_at',today);
+    const rc=runder?runder.length:0;
+    document.getElementById('s-runde').textContent=`${rc}/3`;
+    document.getElementById('hp-runde').textContent=`${rc}/3 runder`;
+    const {data:fokus}=await sb.from('fokusomraader').select('id').gte('oprettet_at',today);
+    const fo=fokus&&fokus.length>0;
+    document.getElementById('s-fokus').textContent=fo?'✓':'—';
+    document.getElementById('hp-fokus').textContent=fo?'Fokus udfyldt':'Fokus afventer';
+    const {data:acts}=await sb.from('aktivitet').select('*').order('oprettet_at',{ascending:false}).limit(5);
+    const tbody=document.getElementById('act-tbody');
+    if(acts&&acts.length>0){
+      tbody.innerHTML=acts.map(a=>{
+        const t=new Date(a.oprettet_at).toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'});
+        return `<tr><td>${a.skema}</td><td>${a.bruger_navn||'—'}</td><td>${t}</td><td><span class="badge bg">Gemt</span></td></tr>`;
+      }).join('');
+    }
+  }catch(e){console.log('Dashboard load error',e)}
+}
+
+// BUILD UI
+function buildAll(){
   buildRunde();
   buildFokus();
-  buildFeedback();
+  buildMorgen();
   buildLeder();
   buildPris();
 }
 
-function buildRunde() {
-  const container = document.getElementById('runde-zones');
-  container.innerHTML = '';
-  rundeZones.forEach((zone, zi) => {
-    rundeState[zi] = {};
-    const card = document.createElement('div');
-    card.className = 'card';
-    let rows = zone.tasks.map((t, ti) => `
-      <div class="check-row" onclick="toggleCheck(this,'runde',${zi},${ti})">
-        <div class="circle-btn">✓</div>
-        <div class="check-label">${t}</div>
-      </div>`).join('');
-    card.innerHTML = `<div class="card-header">${zone.name}</div>${rows}`;
-    container.appendChild(card);
+function buildRunde(){
+  const c=document.getElementById('runde-zones');
+  c.innerHTML='';
+  zones.forEach((z,zi)=>{
+    rundeState[zi]={};
+    const card=document.createElement('div');
+    card.className='card';
+    card.style.marginBottom='10px';
+    let rows=z.tasks.map((t,ti)=>`<div class="check-row" onclick="toggleRunde(this,${zi},${ti})"><div class="chk">✓</div><div class="chk-label">${t}</div></div>`).join('');
+    card.innerHTML=`<div class="card-header">${z.name}</div>${rows}`;
+    c.appendChild(card);
   });
 }
 
-function buildFokus() {
-  buildChecklist(fokusMA, 'fokus-ma', 'ma');
-  buildChecklist(fokusKasse, 'fokus-kasse', 'kasse');
+function buildFokus(){
+  buildCheckList(fokusMA,'fokus-ma','ma');
+  buildCheckList(fokusKasse,'fokus-kasse','kasse');
 }
 
-function buildChecklist(items, containerId, key) {
-  const el = document.getElementById(containerId);
-  el.innerHTML = items.map((t, i) => `
-    <div class="check-row" onclick="toggleCheck(this,'fokus_${key}',0,${i})">
-      <div class="circle-btn">✓</div>
-      <div class="check-label">${t}</div>
-    </div>`).join('');
+function buildCheckList(items,id,key){
+  const el=document.getElementById(id);
+  el.innerHTML=items.map((t,i)=>`<div class="check-row" onclick="toggleFokus(this,'${key}',${i})"><div class="chk">✓</div><div class="chk-label">${t}</div></div>`).join('');
 }
 
-function buildFeedback() {
-  // Header
-  const hdr = document.getElementById('fb-header');
-  hdr.innerHTML = fbFullLabels.map((l, i) =>
-    `<div class="fb-dot-hdr" style="color:${rColors[i]}">${l}</div>`
-  ).join('');
-
-  // Rows
-  const rows = document.getElementById('fb-rows');
-  rows.innerHTML = '';
-  depts.forEach((dept, di) => {
-    fbState[di] = null;
-    const row = document.createElement('div');
-    row.className = 'fb-row';
-    row.style.background = di % 2 === 0 ? 'white' : 'var(--g5)';
-    let dots = rColors.map((col, ri) =>
-      `<div class="fb-dot sel-${di}" style="border-color:${col};background:${col}" data-di="${di}" data-ri="${ri}" onclick="pickFb(this)"></div>`
-    ).join('');
-    row.innerHTML = `<div class="fb-num">${di+1}</div><div class="fb-dots">${dots}</div>`;
-    rows.appendChild(row);
-  });
-
-  // Legend
-  const legend = document.getElementById('fb-legend');
-  legend.innerHTML = depts.map((d, i) =>
-    `<span class="fb-legend-item"><strong>${i+1}.</strong> ${d}</span>`
-  ).join('');
+function addTask(key){
+  const input=document.getElementById(`${key}-input`);
+  const val=input.value.trim();
+  if(!val)return;
+  const container=document.getElementById(`fokus-${key}`);
+  const idx=container.children.length;
+  const row=document.createElement('div');
+  row.className='check-row';
+  row.innerHTML=`<div class="chk">✓</div><div class="chk-label">${val} <span style="color:var(--muted);font-size:11px">(ekstra)</span></div>`;
+  row.onclick=()=>{row.classList.toggle('done');row.querySelector('.chk').classList.toggle('done')};
+  container.appendChild(row);
+  input.value='';
 }
 
-function buildLeder() {
-  const container = document.getElementById('leder-ratings');
-  container.innerHTML = '';
-  depts.forEach((dept, di) => {
-    lederState[di] = null;
-    const row = document.createElement('div');
-    row.className = 'rating-row';
-    row.style.background = di % 2 === 0 ? 'white' : 'var(--g5)';
-    let pills = rLabels.map((l, ri) =>
-      `<div class="rpill ${rClasses[ri]} lp-${di}" data-di="${di}" data-ri="${ri}" onclick="pickLeder(this)">${l}</div>`
-    ).join('');
-    row.innerHTML = `<div class="rating-name">${dept}</div><div class="rating-pills">${pills}</div>`;
-    container.appendChild(row);
-  });
+function buildMorgen(){
+  const c=document.getElementById('morgen-rows');
+  c.innerHTML=depts.map((dept,di)=>{
+    const pills=rLabels.map((l,ri)=>`<div class="rpill ${rClasses[ri]} mp-${di}" data-di="${di}" data-ri="${ri}" onclick="pickMorgen(this)">${l}</div>`).join('');
+    const bg=di%2===0?'white':'var(--g5)';
+    return `<div class="rating-row" style="background:${bg}"><div class="rating-name">${dept}</div><div class="rating-pills">${pills}</div></div>`;
+  }).join('');
 }
 
-function buildPris() {
-  const container = document.getElementById('pris-rows');
-  container.innerHTML = spotOmraader.map((spot, i) => {
-    const bg = i % 2 === 0 ? '' : 'background:var(--g5)';
-    return `<div style="display:flex;align-items:center;padding:10px 18px;border-bottom:1px solid var(--line);gap:16px;${bg}">
-      <div style="flex:1;font-size:14px;font-weight:600;color:var(--ink)">${spot}</div>
-      <div style="display:flex;gap:10px;align-items:center;font-size:13px;color:var(--muted)">
-        <span>Manglende:</span>
-        <input type="number" min="0" id="pris-m-${i}" style="width:52px;padding:5px 8px;border:1.5px solid var(--line);border-radius:6px;font-family:'Sora',sans-serif;text-align:center">
-        <span>Forkerte:</span>
-        <input type="number" min="0" id="pris-f-${i}" style="width:52px;padding:5px 8px;border:1.5px solid var(--line);border-radius:6px;font-family:'Sora',sans-serif;text-align:center">
-      </div>
-    </div>`;
-  }).join('') + '<div style="border-bottom:none"></div>';
+function buildLeder(){
+  const c=document.getElementById('leder-rows');
+  c.innerHTML=depts.map((dept,di)=>{
+    const pills=rLabels.map((l,ri)=>`<div class="rpill ${rClasses[ri]} lp-${di}" data-di="${di}" data-ri="${ri}" onclick="pickLeder(this)">${l}</div>`).join('');
+    const bg=di%2===0?'white':'var(--g5)';
+    return `<div class="rating-row" style="background:${bg}"><div class="rating-name">${dept}</div><div class="rating-pills">${pills}</div></div>`;
+  }).join('');
 }
 
-// ── INTERACTIONS ───────────────────────────────────────────
-function toggleCheck(el, key, zi, ti) {
-  el.classList.toggle('checked');
-  const btn = el.querySelector('.circle-btn');
-  btn.classList.toggle('done');
-  if (key === 'runde') rundeState[zi][ti] = el.classList.contains('checked');
-  else if (key === 'fokus_ma') fokusState.ma[ti] = el.classList.contains('checked');
-  else if (key === 'fokus_kasse') fokusState.kasse[ti] = el.classList.contains('checked');
+function buildPris(){
+  const c=document.getElementById('pris-rows');
+  c.innerHTML=spotOmr.map((s,i)=>{
+    const bg=i%2===0?'':'background:var(--g5)';
+    return `<div class="pris-row" style="${bg}"><div class="pris-name">${s}</div><div class="pris-inputs"><span>Manglende:</span><input type="number" min="0" id="pm-${i}" value="0"><span>Forkerte:</span><input type="number" min="0" id="pf-${i}" value="0"></div></div>`;
+  }).join('');
 }
 
-function pickFb(el) {
-  const di = el.dataset.di;
-  document.querySelectorAll(`.sel-${di}`).forEach(d => d.classList.remove('sel'));
-  el.classList.add('sel');
-  fbState[di] = parseInt(el.dataset.ri);
+// INTERACTIONS
+function toggleCheck(el){el.classList.toggle('done');el.querySelector('.chk').classList.toggle('done')}
+function toggleRunde(el,zi,ti){el.classList.toggle('done');el.querySelector('.chk').classList.toggle('done');rundeState[zi][ti]=el.classList.contains('done')}
+function toggleFokus(el,key,i){el.classList.toggle('done');el.querySelector('.chk').classList.toggle('done');fokusState[key][i]=el.classList.contains('done')}
+function pickMorgen(el){const di=el.dataset.di;document.querySelectorAll(`.mp-${di}`).forEach(p=>p.classList.remove('sel'));el.classList.add('sel');morgenState[di]=parseInt(el.dataset.ri)}
+function pickLeder(el){const di=el.dataset.di;document.querySelectorAll(`.lp-${di}`).forEach(p=>p.classList.remove('sel'));el.classList.add('sel');lederState[di]=parseInt(el.dataset.ri)}
+function selTime(btn,t){document.querySelectorAll('.time-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');selectedTime=t}
+
+// NAVIGATION
+function goTo(id,btn){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  if(btn)btn.classList.add('active');
+  if(id==='dashboard')loadDashboard();
+  if(id==='tidligere')loadHistorik();
 }
 
-function pickLeder(el) {
-  const di = el.dataset.di;
-  document.querySelectorAll(`.lp-${di}`).forEach(p => p.classList.remove('sel'));
-  el.classList.add('sel');
-  lederState[di] = parseInt(el.dataset.ri);
+// SAVE
+async function saveAktivitet(skema){
+  try{
+    await sb.from('aktivitet').insert({bruger_id:currentUser.id,bruger_navn:currentUser.email.split('@')[0],skema,status:'fuldfort'});
+  }catch(e){}
 }
 
-function selectTime(btn, time) {
-  document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+async function gemRunde(){
+  try{
+    await sb.from('butiksrunder').insert({bruger_id:currentUser.id,tidspunkt:selectedTime,data:rundeState,noter:document.getElementById('runde-noter').value});
+    await saveAktivitet('Butiksrunde '+selectedTime);
+    showToast('✓ Butiksrunde gemt!');
+    loadDashboard();
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+async function gemFokus(){
+  try{
+    await sb.from('fokusomraader').insert({bruger_id:currentUser.id,ma_opgaver:fokusState.ma,kasse_opgaver:fokusState.kasse,noter:document.getElementById('fokus-noter').value});
+    await saveAktivitet('Fokusområder');
+    showToast('✓ Fokusområder gemt!');
+    loadDashboard();
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+async function gemMorgen(){
+  try{
+    await sb.from('fokusomraader').insert({bruger_id:currentUser.id,feedback:morgenState,noter:document.getElementById('morgen-noter').value});
+    await saveAktivitet('Morgenfeedback');
+    showToast('✓ Morgenfeedback gemt!');
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+async function gemLeder(){
+  try{
+    const w=getWeek(new Date());
+    await sb.from('ugerapporter').insert({bruger_id:currentUser.id,uge:w,aar:new Date().getFullYear(),afdelinger:lederState,opfoelgning:document.getElementById('leder-opf').value,afvigelser:document.getElementById('leder-afv').value});
+    await saveAktivitet('Leder Ugerapport');
+    showToast('✓ Ugerapport gemt!');
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+async function gemPris(){
+  try{
+    const data=spotOmr.map((_,i)=>({manglende:parseInt(document.getElementById(`pm-${i}`).value)||0,forkerte:parseInt(document.getElementById(`pf-${i}`).value)||0}));
+    await sb.from('ugerapporter').insert({bruger_id:currentUser.id,uge:getWeek(new Date()),aar:new Date().getFullYear(),priskontrol:data});
+    await saveAktivitet('Priskontrol');
+    showToast('✓ Priskontrol gemt!');
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+async function gemDato(){
+  try{
+    await saveAktivitet('Dato Kontrol Køl & Ost');
+    showToast('✓ Dato kontrol gemt!');
+  }catch(e){showToast('Fejl — prøv igen')}
+}
+
+// HISTORIK
+async function loadHistorik(){
+  const c=document.getElementById('hist-list');
+  c.innerHTML='<div style="text-align:center;color:var(--muted);padding:30px">Indlæser...</div>';
+  try{
+    const {data}=await sb.from('aktivitet').select('*').order('oprettet_at',{ascending:false}).limit(50);
+    histData=data||[];
+    renderHistorik();
+  }catch(e){c.innerHTML='<div style="text-align:center;color:var(--muted);padding:30px">Ingen historik fundet</div>'}
+}
+
+function filterHist(f,btn){
+  histFilter=f;
+  document.querySelectorAll('.filt-btn').forEach(b=>b.classList.remove('active'));
   btn.classList.add('active');
-  selectedTime = time;
+  renderHistorik();
 }
 
-// ── SAVE TO SUPABASE ───────────────────────────────────────
-async function gemRundeForm() {
-  const btn = event.target;
-  btn.textContent = 'Gemmer...';
-  btn.classList.add('saving');
-  const { error } = await sb.from('butiksrunder').insert({
-    bruger_id: currentUser.id,
-    tidspunkt: selectedTime,
-    data: rundeState,
-    noter: document.getElementById('runde-noter').value,
-  });
-  btn.classList.remove('saving');
-  btn.textContent = '✓ Gem butiksrunde';
-  if (error) { showToast('Fejl — prøv igen'); return; }
-  showToast('✓ Butiksrunde gemt!');
-  loadDashboard();
+function renderHistorik(){
+  const c=document.getElementById('hist-list');
+  let filtered=histData;
+  if(histFilter!=='alle'){
+    filtered=histData.filter(h=>h.skema.toLowerCase().includes(histFilter));
+  }
+  if(filtered.length===0){c.innerHTML='<div style="text-align:center;color:var(--muted);padding:30px">Ingen poster i denne kategori</div>';return}
+  c.innerHTML=filtered.map(h=>{
+    const dt=new Date(h.oprettet_at);
+    const dato=dt.toLocaleDateString('da-DK',{weekday:'short',day:'numeric',month:'short'});
+    const tid=dt.toLocaleTimeString('da-DK',{hour:'2-digit',minute:'2-digit'});
+    return `<div class="hist-card"><div class="hist-top"><span class="hist-cat">${h.skema}</span><span class="hist-date">${dato} ${tid}</span></div><div class="hist-user">${h.bruger_navn||'—'}</div><div class="hist-status">Gemt korrekt</div></div>`;
+  }).join('');
 }
 
-async function gemFokusForm() {
-  const btn = event.target;
-  btn.textContent = 'Gemmer...'; btn.classList.add('saving');
-  const { error } = await sb.from('fokusomraader').insert({
-    bruger_id: currentUser.id,
-    ma_opgaver: fokusState.ma,
-    kasse_opgaver: fokusState.kasse,
-    feedback: fbState,
-    noter: document.getElementById('fokus-noter').value,
-  });
-  btn.classList.remove('saving'); btn.textContent = '✓ Gem fokusområder';
-  if (error) { showToast('Fejl — prøv igen'); return; }
-  showToast('✓ Fokusområder gemt!');
-  loadDashboard();
-}
-
-async function gemLederForm() {
-  const btn = event.target;
-  btn.textContent = 'Gemmer...'; btn.classList.add('saving');
-  const prisData = spotOmraader.map((_, i) => ({
-    manglende: parseInt(document.getElementById(`pris-m-${i}`).value)||0,
-    forkerte:  parseInt(document.getElementById(`pris-f-${i}`).value)||0,
-  }));
-  const { error } = await sb.from('ugerapporter').insert({
-    bruger_id: currentUser.id,
-    uge: getWeek(new Date()),
-    aar: new Date().getFullYear(),
-    afdelinger: lederState,
-    opfoelgning: document.getElementById('leder-opf').value,
-    afvigelser: document.getElementById('leder-afv').value,
-    priskontrol: prisData,
-  });
-  btn.classList.remove('saving'); btn.textContent = '✓ Gem ugerapport & priskontrol';
-  if (error) { showToast('Fejl — prøv igen'); return; }
-  showToast('✓ Ugerapport gemt!');
-}
-
-// ── NAVIGATION ─────────────────────────────────────────────
-function showPage(id, btn) {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  document.getElementById('page-' + id).classList.add('active');
-  if (btn) btn.classList.add('active');
-  if (id === 'dashboard') loadDashboard();
-}
-
-// ── TOAST ───────────────────────────────────────────────────
-function showToast(msg) {
-  const t = document.getElementById('toast');
-  t.textContent = msg;
+// TOAST
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
   t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 3000);
+  setTimeout(()=>t.classList.remove('show'),3000);
 }
 
-// ── INIT ────────────────────────────────────────────────────
-sb.auth.onAuthStateChange(async (event, session) => {
-  if (session?.user) {
-    await loadProfile(session.user);
+// AUTO LOGIN
+sb.auth.onAuthStateChange(async(event,session)=>{
+  if(session?.user&&!currentUser){
+    currentUser=session.user;
+    startApp();
   }
 });
 </script>
